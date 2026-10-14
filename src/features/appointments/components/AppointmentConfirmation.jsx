@@ -1,0 +1,8 @@
+import { CalendarDays, CheckCircle2, MapPin, ShieldCheck, UserRound } from "lucide-react";
+import { formatAppointmentDate, padNumber } from "../data/appointmentCatalog.js";
+
+export default function AppointmentConfirmation({ doctor, date, time, confirmed, onConfirm, onCancel }) {
+  const ready = Boolean(doctor && date && time);
+  const displayTime = time ? (() => { const [hour, minute] = time.split(":").map(Number); return `${hour % 12 || 12}:${padNumber(minute)}${hour >= 12 ? " p. m." : " a. m."}`; })() : "Hora pendiente";
+  return <section className={`confirm-bar ${confirmed ? "confirmed" : ""}`}><div className="confirm-intro"><span className="confirm-shield">{confirmed ? <CheckCircle2 size={27} /> : <ShieldCheck size={28} />}</span><div><h2>{confirmed ? "¡Cita confirmada!" : "Confirmar cita"}</h2><p>{confirmed ? "Tu reserva de demostración está lista." : "Revisa los detalles antes de confirmar."}</p></div></div><div className="booking-detail"><UserRound /><div><strong>{doctor?.name || "Selecciona un médico"}</strong><small>{doctor?.spec || "Especialidad"}</small></div></div><div className="booking-detail"><CalendarDays /><div><strong>{date ? formatAppointmentDate(date) : "Selecciona una fecha"}</strong><small>{displayTime}</small></div></div><div className="booking-detail"><MapPin /><div><strong>Modalidad</strong><small>Presencial</small></div></div><div className="booking-actions"><button type="button" className="confirm-btn" disabled={!ready || confirmed} onClick={onConfirm}><CalendarDays size={16} />{confirmed ? "Cita confirmada" : "Confirmar cita"}</button><button type="button" className="cancel-btn" onClick={onCancel}>{confirmed ? "Agendar otra" : "Cancelar"}</button></div></section>;
+}

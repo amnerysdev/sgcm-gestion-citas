@@ -1,0 +1,6 @@
+import { CalendarDays, Search, Settings, X } from "lucide-react";
+
+export default function AppointmentFilters({ query, setQuery, tab, setTab, upcomingCount, setPage }) {
+  const chooseTab = (value) => { setTab(value); setPage(1); };
+  return <><div className="panel-heading"><div><h2>Agenda de citas</h2><p>Todo lo que necesitas saber sobre tus visitas.</p></div><div className="search-box"><Search size={18} /><input value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); }} placeholder="Buscar médico o especialidad..." aria-label="Buscar citas" />{query && <button type="button" onClick={() => setQuery("")} aria-label="Limpiar búsqueda"><X size={15} /></button>}</div></div><div className="tabs-row"><div className="tabs" role="tablist"><button className={tab === "upcoming" ? "tab active-tab" : "tab"} onClick={() => chooseTab("upcoming")}>Próximas <span>{upcomingCount}</span></button><button className={tab === "past" ? "tab active-tab" : "tab"} onClick={() => chooseTab("past")}>Anteriores</button><button className={tab === "all" ? "tab active-tab" : "tab"} onClick={() => chooseTab("all")}>Todas</button></div><button className="filter-button" onClick={() => { setQuery(""); chooseTab("all"); }}><Settings size={16} /> Ver todas</button></div></>;
+}

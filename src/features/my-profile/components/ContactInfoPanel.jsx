@@ -1,0 +1,6 @@
+import { Pencil, Phone } from "lucide-react";
+import ProfilePanelHeading from "./ProfilePanelHeading.jsx";
+
+export default function ContactInfoPanel({ profile, onEdit }) {
+  return <section className="panel"><ProfilePanelHeading icon={Phone} title="Datos de contacto" description="Mantén tu información de contacto actualizada." action={<button className="outline" onClick={onEdit}><Pencil size={15} />Editar</button>} /><div className="contacts"><div className="detail"><span>Correo electrónico</span><b>{profile.email}</b></div><div className="detail address"><span>Dirección</span><b>{profile.address}<br />{profile.city}</b></div><div className="detail"><span>Teléfono</span><b>{profile.phone}</b></div><div className="detail"><span>Teléfono alternativo</span><b>{profile.alternatePhone}</b></div><div className="detail"><span>Contacto de emergencia</span><b>{profile.emergencyName}</b></div><div className="detail"><span>Teléfono de emergencia</span><b>{profile.emergencyPhone}</b></div></div></section>;
+}

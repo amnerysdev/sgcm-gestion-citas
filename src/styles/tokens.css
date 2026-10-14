@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  font-family: "Inter", sans-serif;
+  color: #102B65;
+  background: #F4F8FD;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --font-ui: "Inter", sans-serif;
+  --color-white: #FFFFFF;
+  --color-page: #F4F8FD;
+  --color-sidebar: #FFFFFF;
+  --color-header: rgb(255 255 255 / 94%);
+  --color-navy: #102B65;
+  --color-primary: #087FC4;
+  --color-teal: #13B6B1;
+  --color-text: #102B65;
+  --color-text-muted: #49678E;
+  --color-nav-hover: #F0F7FF;
+  --color-nav-active: #E6F2FF;
+  --color-nav-border: #D7EAFE;
+  --color-border: #DCE7F2;
+  --color-decoration: #DCEBFF;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --shadow-header: 0 4px 18px rgb(16 43 101 / 5%);
+  --shadow-soft: 0 8px 24px rgb(16 43 101 / 8%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-white: #15233B;
+  --color-page: #0D1728;
+  --color-sidebar: #111E32;
+  --color-header: rgb(17 30 50 / 94%);
+  --color-navy: #E5EEFF;
+  --color-primary: #62BFFF;
+  --color-text: #E5EEFF;
+  --color-text-muted: #A5B8D4;
+  --color-nav-hover: #1A2D48;
+  --color-nav-active: #1A3555;
+  --color-nav-border: #25476D;
+  --color-border: #263A56;
+  --color-decoration: #203754;
+  --shadow-header: 0 4px 18px rgb(0 0 0 / 12%);
+  --shadow-soft: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button, a {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgb(8 127 196 / 35%);
+  outline-offset: 3px;
+}

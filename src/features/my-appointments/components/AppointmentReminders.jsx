@@ -1,0 +1,5 @@
+import { ChevronRight, HeartPulse, Phone, Stethoscope } from "lucide-react";
+
+export default function AppointmentReminders() {
+  return <section className="bottom-grid"><div className="reminder-card"><div className="reminder-art"><div className="reminder-circle"><Stethoscope size={28} /></div><span className="sparkle sparkle-one">✦</span><span className="sparkle sparkle-two">✧</span></div><div className="reminder-copy"><span className="mini-label">UN PEQUEÑO RECORDATORIO</span><h3>Tu bienestar es una prioridad.</h3><p>Recuerda llegar 15 minutos antes de tu cita y traer tu documento de identidad.</p></div></div><div className="contact-card"><div className="contact-icon"><Phone size={20} /></div><div><h3>¿Necesitas cambiar tus planes?</h3><p>Solicita un cambio con tiempo para que podamos ayudarte.</p><a href="mailto:soporte@sgcm.example">Contactar soporte <ChevronRight size={15} /></a></div></div></section>;
+}

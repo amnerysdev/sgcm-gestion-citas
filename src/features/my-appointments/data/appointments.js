@@ -1,0 +1,5 @@
+export const initialAppointments = [
+  { id: 1, day: "22", month: "OCT", date: "Jueves, 22 de octubre de 2026", time: "09:30 AM", doctor: "Dra. Laura Méndez", specialty: "Medicina general", location: "Consultorio 204", status: "Confirmada", type: "upcoming", image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=160&q=80" },
+  { id: 2, day: "27", month: "OCT", date: "Martes, 27 de octubre de 2026", time: "02:00 PM", doctor: "Dr. Carlos Ramírez", specialty: "Cardiología", location: "Consultorio 108", status: "Pendiente", type: "upcoming", image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=160&q=80" },
+  { id: 3, day: "08", month: "SEP", date: "Martes, 8 de septiembre de 2026", time: "10:15 AM", doctor: "Dra. Sofía Castillo", specialty: "Dermatología", location: "Consultorio 305", status: "Completada", type: "past", image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=160&q=80" },
+];
