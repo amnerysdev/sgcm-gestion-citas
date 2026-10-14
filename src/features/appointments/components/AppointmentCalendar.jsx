@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
-import { appointmentTimes, monthNames, toDateKey } from "../data/appointmentCatalog.js";
+import { appointmentTimes, monthNames } from "../data/appointmentCatalog.js";
 import BookingStep from "./BookingStep.jsx";
 
-export default function AppointmentCalendar({ month, setMonth, date, setDate, time, setTime, onChange }) {
+export default function AppointmentCalendar({ month, setMonth, date, setDate, time, setTime, bookedTimes = [], onChange }) {
   const cells = useMemo(() => {
     const first = new Date(month.getFullYear(), month.getMonth(), 1);
     const offset = (first.getDay() + 6) % 7;
@@ -28,7 +28,7 @@ export default function AppointmentCalendar({ month, setMonth, date, setDate, ti
       <BookingStep number="3" title="Fecha y hora" />
       <div className="booking-month"><button type="button" onClick={() => changeMonth(-1)} aria-label="Mes anterior"><ChevronLeft /></button><strong>{monthNames[month.getMonth()]} {month.getFullYear()}</strong><button type="button" onClick={() => changeMonth(1)} aria-label="Mes siguiente"><ChevronRight /></button></div>
       <div className="booking-calendar">{["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((label) => <span className="weekday" key={label}>{label}</span>)}{cells.map(({ date: cellDate, outside }, index) => { const available = !outside && isAvailable(cellDate); const chosen = date && toDateKey(date) === toDateKey(cellDate); return <button type="button" key={index} disabled={!available} className={`calendar-day ${outside ? "outside " : ""}${available ? "available " : ""}${chosen ? "chosen" : ""}`} onClick={() => { setDate(cellDate); setTime(""); onChange(); }}>{cellDate.getDate()}</button>; })}</div>
-      <div className="booking-times"><div className="time-label"><Clock3 size={18} /><strong>Horarios disponibles</strong></div>{date ? <div className="time-grid">{appointmentTimes.map((value) => <button type="button" key={value} className={time === value ? "chosen" : ""} onClick={() => { setTime(value); onChange(); }}>{value}</button>)}</div> : <p className="booking-hint">Selecciona una fecha disponible para ver los horarios.</p>}</div>
+      <div className="booking-times"><div className="time-label"><Clock3 size={18} /><strong>Horarios disponibles</strong></div>{date ? <div className="time-grid">{appointmentTimes.map((value) => { const unavailable = bookedTimes.includes(value); return <button type="button" key={value} disabled={unavailable} className={time === value ? "chosen" : ""} onClick={() => { setTime(value); onChange(); }}>{value}</button>; })}</div> : <p className="booking-hint">Selecciona una fecha disponible para ver los horarios.</p>}</div>
     </section>
   );
 }

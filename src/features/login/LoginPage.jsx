@@ -4,13 +4,13 @@ import LoginForm from "./components/LoginForm.jsx";
 import RegisterForm from "./components/RegisterForm.jsx";
 import FeedbackToast from "./components/FeedbackToast.jsx";
 
-export default function LoginPage({ onLogin }) {
+export default function LoginPage({ onLogin, onRegister }) {
   const [view, setView] = useState("login");
   const [notice, setNotice] = useState("");
   const closeRegister = () => { setView("login"); setNotice(""); };
 
   if (view === "register") {
-    return <div className="login-screen register-screen"><main className="registration-page"><RegisterForm onBack={closeRegister} onNotice={setNotice} /><FeedbackToast message={notice} onClose={() => setNotice("")} /></main></div>;
+    return <div className="login-screen register-screen"><main className="registration-page"><RegisterForm onBack={closeRegister} onNotice={setNotice} onRegister={onRegister} /><FeedbackToast message={notice} onClose={() => setNotice("")} /></main></div>;
   }
 
   return (

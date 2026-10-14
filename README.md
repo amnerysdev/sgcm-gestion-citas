@@ -1,6 +1,6 @@
 # SGCM · Portal de citas médicas
 
-Portal de demostración construido con React y Vite. Sus páginas están organizadas por función para que cada flujo pueda cambiarse por separado.
+Portal de citas médicas construido con React y Vite, con una API local y almacenamiento en memoria para usuarios, perfiles y citas.
 
 ## Estructura
 
@@ -24,9 +24,16 @@ Cada `features/<nombre>` mantiene sus datos y componentes de página junto a la 
 
 1. Instala Node.js 18 o superior.
 2. Ejecuta `npm install`.
-3. Ejecuta `npm run dev`.
-4. Abre la URL local que indica Vite.
+3. Ejecuta `npm run dev` (inicia el portal y su API en `http://localhost:5173`).
+4. Registra una cuenta o usa la cuenta de demostración indicada abajo.
 
-## Estado de integración
+## Cuenta de demostración
 
-El acceso, registro, perfil, médicos, horarios y citas usan datos de demostración. Las acciones del portal aún no se conectan al backend ni guardan información de forma persistente.
+- Correo: `paciente@sgcm.demo`
+- Contraseña: `SGCMdemo123`
+
+## Almacenamiento y funciones
+
+El servidor mantiene usuarios, perfiles, sesiones y citas en memoria. Permite registrarse e iniciar sesión, reservar horarios, consultar, cancelar y solicitar cambios de citas, y actualizar el perfil. Las contraseñas se almacenan con hash mientras vive el proceso.
+
+Los datos son temporales: se reinician cuando se detiene el servidor. Esta base en memoria está pensada para desarrollo y demostraciones, no para producción. Ejecuta `npm run build` para compilar la interfaz; para que las rutas `/api` estén disponibles, inicia el servidor con `npm start`.

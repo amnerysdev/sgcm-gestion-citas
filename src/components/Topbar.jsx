@@ -15,6 +15,7 @@ export default function Topbar({
   mobileMenuOpen,
   userMenuOpen,
   setUserMenuOpen,
+  user,
 }) {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -48,10 +49,10 @@ export default function Topbar({
             aria-expanded={userMenuOpen}
             aria-haspopup="menu"
           >
-            <span className="user-avatar" aria-hidden="true">PD</span>
+            <span className="user-avatar" aria-hidden="true">{`${user?.firstName?.[0] || ''}${user?.lastName?.[0] || ''}`}</span>
             <span className="user-copy">
-              <strong>Paciente de Prueba</strong>
-              <small>Paciente</small>
+              <strong>{user ? `${user.firstName} ${user.lastName}` : "Paciente"}</strong>
+              <small>{user?.role === "specialist" ? "Especialista" : "Paciente"}</small>
             </span>
             <ChevronDown
               size={17}

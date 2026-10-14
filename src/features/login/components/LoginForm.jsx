@@ -9,12 +9,14 @@ export default function LoginForm({ onLogin, onNotice, onOpenRegister }) {
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault();
     if (!email.trim() || !password) return onNotice("Completa tu correo electrónico y contraseña para continuar.");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return onNotice("Escribe un correo electrónico válido.");
     setBusy(true);
-    window.setTimeout(() => { setBusy(false); onLogin(); }, 450);
+    try { await onLogin(email.trim(), password); }
+    catch (error) { onNotice(error.message); }
+    finally { setBusy(false); }
   }
 
   function recover() {

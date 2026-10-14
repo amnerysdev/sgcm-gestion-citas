@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, CalendarDays, CheckCircle2, Eye, EyeOff, LockKeyhole, Mail, Phone, Stethoscope, UserRound } from "lucide-react";
 
-export default function RegisterForm({ onBack, onNotice }) {
+export default function RegisterForm({ onBack, onNotice, onRegister }) {
   const [userType, setUserType] = useState("patient");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [busy, setBusy] = useState(false);
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     if (data.get("newPassword") !== data.get("confirmPassword")) return onNotice("Las contraseñas no coinciden.");
-    onNotice("Formulario completo. El registro se conectará al sistema de SGCM.");
+    setBusy(true);
+    try { await onRegister({ userType, firstName: data.get("firstName"), lastName: data.get("lastName"), email: data.get("email"), password: data.get("newPassword"), birthDate: data.get("birthDate"), phone: data.get("phone"), gender: data.get("gender") }); }
+    catch (error) { onNotice(error.message); }
+    finally { setBusy(false); }
   }
 
   return (
@@ -33,7 +37,7 @@ export default function RegisterForm({ onBack, onNotice }) {
           <label className="register-field full"><span className="field-label">Género</span><div className="register-input"><UserRound /><select name="gender" defaultValue=""><option value="" disabled>Selecciona una opción</option><option value="female">Femenino</option><option value="male">Masculino</option><option value="other">Otro</option><option value="prefer-not-to-say">Prefiero no decirlo</option></select><span className="select-chevron" /></div></label>
         </div>
         <label className="terms-check"><input type="checkbox" name="terms" required /><span className="terms-box"><CheckCircle2 size={13} /></span><span>Acepto los <button type="button" onClick={() => onNotice("Agrega aquí los Términos y Condiciones de SGCM.")}>Términos y Condiciones</button> y la <button type="button" onClick={() => onNotice("Agrega aquí la Política de Privacidad de SGCM.")}>Política de Privacidad</button>.</span></label>
-        <button className="register-submit" type="submit">Crear cuenta <ArrowRight size={18} /></button>
+        <button className="register-submit" type="submit" disabled={busy}>{busy ? "Creando cuenta…" : "Crear cuenta"} <ArrowRight size={18} /></button>
       </form>
     </section>
   );

@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
+import { api } from "./api.js";
 import LoginPage from "./features/login/LoginPage.jsx";
 import DashboardShell from "./components/DashboardShell.jsx";
 import usePortalNavigation from "./app/usePortalNavigation.js";
 import { portalSections } from "./app/portalSections.js";
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [checkingSession, setCheckingSession] = useState(true);
   const navigation = usePortalNavigation();
   const { activeSection, navigate, resetNavigation } = navigation;
 
   useEffect(() => {
-    document.title = isAuthenticated ? `SGCM | ${portalSections[activeSection]?.label ?? "Inicio"}` : "SGCM | Iniciar sesión";
-  }, [activeSection, isAuthenticated]);
+    document.title = user ? `SGCM | ${portalSections[activeSection]?.label ?? "Inicio"}` : "SGCM | Iniciar sesión";
+  }, [activeSection, user]);
+
+  useEffect(() => { api.me().then(({ user: current }) => setUser(current)).catch(() => setUser(null)).finally(() => setCheckingSession(false)); }, []);
 
   useEffect(() => {
     const handleNavigate = (event) => navigate(event.detail);
-    const handleLogout = () => { setIsAuthenticated(false); resetNavigation(); };
+    const handleLogout = async () => { try { await api.logout(); } finally { setUser(null); resetNavigation(); } };
     window.addEventListener("sgcm:navigate", handleNavigate);
     window.addEventListener("sgcm:logout-requested", handleLogout);
     return () => {
@@ -24,6 +28,9 @@ export default function App() {
     };
   }, [navigate, resetNavigation]);
 
-  if (!isAuthenticated) return <LoginPage onLogin={() => setIsAuthenticated(true)} />;
-  return <DashboardShell navigation={navigation} />;
+  if (checkingSession) return <div className="session-loading" role="status">Cargando SGCM…</div>;
+  async function login(email, password) { const response = await api.login(email, password); setUser(response.user); return response; }
+  async function register(data) { const response = await api.register(data); setUser(response.user); return response; }
+  if (!user) return <LoginPage onLogin={login} onRegister={register} />;
+  return <DashboardShell navigation={navigation} user={user} />;
 }
