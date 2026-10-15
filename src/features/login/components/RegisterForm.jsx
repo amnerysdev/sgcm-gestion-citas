@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, CalendarDays, CheckCircle2, Eye, EyeOff, LockKeyhole, Mail, Phone, Stethoscope, UserRound } from "lucide-react";
+import { specialties } from "../../appointments/data/appointmentCatalog.js";
 
 export default function RegisterForm({ onBack, onNotice, onRegister }) {
   const [userType, setUserType] = useState("patient");
@@ -12,7 +13,7 @@ export default function RegisterForm({ onBack, onNotice, onRegister }) {
     const data = new FormData(event.currentTarget);
     if (data.get("newPassword") !== data.get("confirmPassword")) return onNotice("Las contraseñas no coinciden.");
     setBusy(true);
-    try { await onRegister({ userType, firstName: data.get("firstName"), lastName: data.get("lastName"), email: data.get("email"), password: data.get("newPassword"), birthDate: data.get("birthDate"), phone: data.get("phone"), gender: data.get("gender") }); }
+    try { await onRegister({ userType, firstName: data.get("firstName"), lastName: data.get("lastName"), email: data.get("email"), password: data.get("newPassword"), birthDate: data.get("birthDate"), phone: data.get("phone"), gender: data.get("gender"), specialty: data.get("specialty") }); }
     catch (error) { onNotice(error.message); }
     finally { setBusy(false); }
   }
@@ -34,7 +35,8 @@ export default function RegisterForm({ onBack, onNotice, onRegister }) {
           <label className="register-field"><span className="field-label">Confirmar contraseña <b>*</b></span><div className="register-input"><LockKeyhole /><input name="confirmPassword" type={showConfirmPassword ? "text" : "password"} autoComplete="new-password" placeholder="Repite tu contraseña" minLength={8} required /><button type="button" aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"} onClick={() => setShowConfirmPassword((value) => !value)}>{showConfirmPassword ? <EyeOff /> : <Eye />}</button></div></label>
           <label className="register-field"><span className="field-label">Fecha de nacimiento <b>*</b></span><div className="register-input"><CalendarDays /><input name="birthDate" type="date" autoComplete="bday" required /></div></label>
           <label className="register-field"><span className="field-label">Teléfono <b>*</b></span><div className="register-input"><Phone /><input name="phone" type="tel" autoComplete="tel" placeholder="Ej. 809-555-1234" required /></div></label>
-          <label className="register-field full"><span className="field-label">Género</span><div className="register-input"><UserRound /><select name="gender" defaultValue=""><option value="" disabled>Selecciona una opción</option><option value="female">Femenino</option><option value="male">Masculino</option><option value="other">Otro</option><option value="prefer-not-to-say">Prefiero no decirlo</option></select><span className="select-chevron" /></div></label>
+          {userType === "specialist" && <label className="register-field"><span className="field-label">Especialidad <b>*</b></span><div className="register-input"><Stethoscope /><select name="specialty" defaultValue="" required><option value="" disabled>Selecciona una especialidad</option>{specialties.map(([, name]) => <option key={name} value={name}>{name}</option>)}</select><span className="select-chevron" aria-hidden="true" /></div></label>}
+          <label className={`register-field ${userType === "patient" ? "full" : ""}`}><span className="field-label">Género</span><div className="register-input"><UserRound /><select name="gender" defaultValue=""><option value="" disabled>Selecciona una opción</option><option value="female">Femenino</option><option value="male">Masculino</option><option value="other">Otro</option><option value="prefer-not-to-say">Prefiero no decirlo</option></select><span className="select-chevron" aria-hidden="true" /></div></label>
         </div>
         <label className="terms-check"><input type="checkbox" name="terms" required /><span className="terms-box"><CheckCircle2 size={13} /></span><span>Acepto los <button type="button" onClick={() => onNotice("Agrega aquí los Términos y Condiciones de SGCM.")}>Términos y Condiciones</button> y la <button type="button" onClick={() => onNotice("Agrega aquí la Política de Privacidad de SGCM.")}>Política de Privacidad</button>.</span></label>
         <button className="register-submit" type="submit" disabled={busy}>{busy ? "Creando cuenta…" : "Crear cuenta"} <ArrowRight size={18} /></button>

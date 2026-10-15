@@ -54,3 +54,8 @@
   .login-screen .register-input input, .login-screen .register-input select { font-size: 9px; }
   .login-screen .register-submit { height: 42px; }
 }
+
+.login-screen .register-input select{flex:1 1 0;width:0;min-width:0;padding-right:12px;cursor:pointer;position:relative;z-index:1}
+.login-screen .register-input .select-chevron{position:relative;z-index:2;pointer-events:none}
+@media(max-width:560px){.login-screen .register-field:not(.full){grid-column:auto}}
+

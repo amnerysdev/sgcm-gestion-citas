@@ -97,8 +97,9 @@ export const db = {
     const email = data.email.trim().toLowerCase();
     if (users.has(email)) throw Object.assign(new Error('Ya existe una cuenta con ese correo electrónico.'), { status: 409 });
     const role = data.userType === 'specialist' ? 'specialist' : 'patient';
+    if (role === 'specialist' && (typeof data.specialty !== 'string' || !data.specialty.trim())) throw Object.assign(new Error('Selecciona la especialidad del especialista.'), { status: 400 });
     const profile = { name: `${data.firstName.trim()} ${data.lastName.trim()}`, birth: data.birthDate, nationality: 'Dominicana', document: '', gender: data.gender || '', civil: '', email, phone: data.phone.trim(), address: '', city: '', alternatePhone: '', postalCode: '', emergencyName: '', emergencyRelation: '', emergencyPhone: '', language: 'Español', notifications: true, reminders: true, contactMethod: 'Correo electrónico', photo: '' };
-    if (role === 'specialist') Object.assign(profile, { specialty: '', licenseNumber: '', yearsExperience: '', education: '', biography: '' });
+    if (role === 'specialist') Object.assign(profile, { specialty: data.specialty.trim(), licenseNumber: '', yearsExperience: '', education: '', biography: '' });
     const user = { id: randomUUID(), firstName: data.firstName.trim(), lastName: data.lastName.trim(), email, role, birthDate: data.birthDate, gender: data.gender || '', phone: data.phone.trim(), password: passwordRecord(data.password), profile };
     users.set(email, user); return user;
   },
