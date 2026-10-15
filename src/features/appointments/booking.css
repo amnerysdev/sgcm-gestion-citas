@@ -149,3 +149,7 @@
 @media (prefers-reduced-motion: reduce) {
   .booking-card, .confirm-bar { animation-duration: .01ms; animation-iteration-count: 1; transition-duration: .01ms; }
 }
+
+.doctor-avatar-photo{display:block;flex:0 0 47px;width:47px;height:47px;object-fit:cover;border:2px solid var(--color-white);border-radius:50%;box-shadow:0 0 0 1px var(--color-border)}
+@media(max-width:760px){.doctor-avatar-photo{flex-basis:39px;width:39px;height:39px}}
+

@@ -24,3 +24,8 @@
 
 .specialist-appointments .sa-table th:nth-child(3),.specialist-appointments .sa-table td:nth-child(3){text-align:center}
 
+
+/* Keep the last row's action menu above pagination and inside the table panel. */
+.specialist-appointments .sa-table tbody tr:has(.sa-menu) td.sa-actions{z-index:30}
+.specialist-appointments .sa-table tbody tr:nth-last-child(-n+2) .sa-menu{top:auto;bottom:36px}
+

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
-import { appointmentTimes, monthNames } from "../data/appointmentCatalog.js";
+import { appointmentTimes, monthNames, toDateKey } from "../data/appointmentCatalog.js";
 import BookingStep from "./BookingStep.jsx";
 
 export default function AppointmentCalendar({ month, setMonth, date, setDate, time, setTime, bookedTimes = [], onChange }) {
