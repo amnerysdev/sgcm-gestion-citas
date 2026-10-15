@@ -2,18 +2,27 @@ import {
   LayoutGrid,
   CalendarPlus,
   CalendarDays,
+  Clock3,
   UserRound,
   LogOut,
 } from "lucide-react";
 
-const navigation = [
+const patientNavigation = [
   { id: "inicio", label: "Inicio", Icon: LayoutGrid },
   { id: "agendar", label: "Agendar cita", Icon: CalendarPlus },
   { id: "citas", label: "Mis citas", Icon: CalendarDays },
   { id: "perfil", label: "Mi perfil", Icon: UserRound },
 ];
 
-export default function Sidebar({ activeSection, onNavigate, mobileMenuOpen }) {
+const doctorNavigation = [
+  { id: "inicio", label: "Inicio", Icon: LayoutGrid },
+  { id: "horarios", label: "Mis horarios", Icon: Clock3 },
+  { id: "citas", label: "Mis citas", Icon: CalendarDays },
+  { id: "perfil", label: "Mi perfil", Icon: UserRound },
+];
+
+export default function Sidebar({ activeSection, onNavigate, mobileMenuOpen, user }) {
+  const navigation = user?.role === "specialist" ? doctorNavigation : patientNavigation;
   return (
     <aside
       className={`sidebar ${mobileMenuOpen ? "is-open" : ""}`}
@@ -28,7 +37,7 @@ export default function Sidebar({ activeSection, onNavigate, mobileMenuOpen }) {
         }}
         aria-label="SGCM, ir al inicio"
       >
-        <img src="/assets/sgcm-logo.svg" alt="Sistema de Gestión de Citas Médicas" />
+        <img src="/assets/sgcm-logo.png" alt="Sistema de Gestión de Citas Médicas" />
       </a>
 
       <nav className="sidebar-nav">

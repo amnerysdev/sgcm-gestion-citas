@@ -1,0 +1,23 @@
+.my-profile .field textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 96px;
+  resize: vertical;
+  border: 1px solid #dce9f6;
+  border-radius: 9px;
+  background: #fbfdff;
+  padding: 10px 11px;
+  color: #183b6f;
+  font: inherit;
+  font-size: 11px;
+  outline: none;
+}
+
+.my-profile .field textarea:focus {
+  border-color: #168ed4;
+  box-shadow: 0 0 0 3px #168ed41a;
+}
+
+.my-profile .detail b {
+  overflow-wrap: anywhere;
+}

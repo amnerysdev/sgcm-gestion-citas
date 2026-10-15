@@ -32,6 +32,11 @@ Cada `features/<nombre>` mantiene sus datos y componentes de página junto a la 
 - Correo: `paciente@sgcm.demo`
 - Contraseña: `SGCMdemo123`
 
+Cuenta de especialista:
+
+- Correo: `especialista@sgcm.demo`
+- Contraseña: `DoctorDemo123`
+
 ## Almacenamiento y funciones
 
 El servidor mantiene usuarios, perfiles, sesiones y citas en memoria. Permite registrarse e iniciar sesión, reservar horarios, consultar, cancelar y solicitar cambios de citas, y actualizar el perfil. Las contraseñas se almacenan con hash mientras vive el proceso.

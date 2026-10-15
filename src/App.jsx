@@ -20,11 +20,22 @@ export default function App() {
   useEffect(() => {
     const handleNavigate = (event) => navigate(event.detail);
     const handleLogout = async () => { try { await api.logout(); } finally { setUser(null); resetNavigation(); } };
+    const handleProfileUpdated = (event) => {
+      const profile = event.detail;
+      setUser((current) => current ? {
+        ...current,
+        profile,
+        firstName: profile.name?.trim().split(/\s+/)[0] || current.firstName,
+        lastName: profile.name?.trim().split(/\s+/).slice(1).join(" ") || current.lastName,
+      } : current);
+    };
     window.addEventListener("sgcm:navigate", handleNavigate);
     window.addEventListener("sgcm:logout-requested", handleLogout);
+    window.addEventListener("sgcm:profile-updated", handleProfileUpdated);
     return () => {
       window.removeEventListener("sgcm:navigate", handleNavigate);
       window.removeEventListener("sgcm:logout-requested", handleLogout);
+      window.removeEventListener("sgcm:profile-updated", handleProfileUpdated);
     };
   }, [navigate, resetNavigation]);
 

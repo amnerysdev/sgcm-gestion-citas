@@ -17,4 +17,9 @@ export const api = {
   appointments: () => request('/appointments'),
   createAppointment: (data) => request('/appointments', { method: 'POST', body: JSON.stringify(data) }),
   updateAppointment: (id, status) => request(`/appointments/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+  schedule: () => request('/schedule'),
+  saveSchedule: (schedule) => request('/schedule', { method: 'PUT', body: JSON.stringify(schedule) }),
+  specialistAppointments: () => request('/specialist/appointments'),
+  createSpecialistAppointment: (appointment) => request('/specialist/appointments', { method: 'POST', body: JSON.stringify(appointment) }),
+  updateSpecialistAppointment: (id, patch) => request(`/specialist/appointments/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(patch) }),
 };

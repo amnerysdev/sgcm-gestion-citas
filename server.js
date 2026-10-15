@@ -5,6 +5,7 @@ import { db } from './server/memoryDatabase.js';
 
 const PORT = Number(process.env.PORT || 5173);
 const sessionsCookie = 'sgcm_session';
+const vite = await createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
 const cookieValue = (header, name) => header?.split(';').map((item) => item.trim()).find((item) => item.startsWith(`${name}=`))?.slice(name.length + 1);
 const send = (response, status, payload, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json; charset=utf-8', ...headers }); response.end(JSON.stringify(payload)); };
 async function readJson(request) {
@@ -14,7 +15,7 @@ async function readJson(request) {
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
-  if (!url.pathname.startsWith('/api/')) return;
+  if (!url.pathname.startsWith('/api/')) return vite.middlewares(request, response);
   const path = url.pathname.replace(/\/$/, '');
   try {
     if (request.method === 'GET' && path === '/api/health') return send(response, 200, { status: 'ok', database: 'memory' });
@@ -42,6 +43,18 @@ const server = createServer(async (request, response) => {
     const user = userId && [...db.users.values()].find((item) => item.id === userId);
     if (request.method === 'GET' && path === '/api/me') return user ? send(response, 200, { user: db.publicUser(user) }) : send(response, 200, { user: null });
     if (!user) return send(response, 401, { error: 'Inicia sesión para continuar.' });
+    if ((request.method === 'GET' || request.method === 'PUT') && path === '/api/schedule') {
+      if (user.role !== 'specialist') return send(response, 403, { error: 'Esta sección es exclusiva para especialistas.' });
+      if (request.method === 'GET') return send(response, 200, { schedule: db.getSchedule(user.id) });
+      return send(response, 200, { schedule: db.saveSchedule(user.id, await readJson(request)) });
+    }
+    const specialistAppointmentsPath = path.match(/^\/api\/specialist\/appointments(?:\/([^/]+))?$/);
+    if (specialistAppointmentsPath) {
+      if (user.role !== 'specialist') return send(response, 403, { error: 'Esta sección es exclusiva para especialistas.' });
+      if (request.method === 'GET' && !specialistAppointmentsPath[1]) return send(response, 200, { appointments: db.listSpecialistAppointments(user.id) });
+      if (request.method === 'POST' && !specialistAppointmentsPath[1]) return send(response, 201, { appointment: db.createSpecialistAppointment(user.id, await readJson(request)) });
+      if (request.method === 'PATCH' && specialistAppointmentsPath[1]) return send(response, 200, { appointment: db.updateSpecialistAppointment(user.id, specialistAppointmentsPath[1], await readJson(request)) });
+    }
     if (request.method === 'GET' && path === '/api/profile') return send(response, 200, { profile: user.profile });
     if (request.method === 'PUT' && path === '/api/profile') {
       const patch = await readJson(request);
@@ -69,6 +82,4 @@ const server = createServer(async (request, response) => {
   } catch (error) { return send(response, error.status || 500, { error: error.status ? error.message : 'Ocurrió un error al procesar la solicitud.' }); }
 });
 
-const vite = await createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
-server.on('request', vite.middlewares);
 server.listen(PORT, '127.0.0.1', () => console.log(`SGCM disponible en http://localhost:${PORT}`));
