@@ -65,9 +65,9 @@ Use either account to explore its respective portal:
 | Patient | `paciente@sgcm.demo` | `SGCMdemo123` |
 | Specialist | `especialista@sgcm.demo` | `DoctorDemo123` |
 
-## 💥 Preview
+## 📸 Preview
 
-The application currently runs as a local preview. Start it with `npm run dev`, then open [http://localhost:5173](http://localhost:5173) and sign in with one of the demo credentials above.
+<img width="1983" height="793" alt="Modern SGCM Healthcare UI Showcase" src="https://github.com/user-attachments/assets/fb18d123-412c-4723-bc43-4036ed7c1baf" />
 
 ## 🧠 Data and API
 
